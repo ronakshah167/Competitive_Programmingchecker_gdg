@@ -61,3 +61,8 @@ All In bridges this gap by using **Google Gemini AI** to analyze code and provid
 
 👉 *Demo Video (3 minutes):*
 https://youtu.be/Hm-WqEWKbF4?feature=shared
+
+---
+
+🌐 Live MVP
+👉 https://gdg1-9ort8k312-ronak-shahs-projects-f1d5e0f8.vercel.app/login
