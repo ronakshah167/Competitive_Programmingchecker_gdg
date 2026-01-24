@@ -65,4 +65,4 @@ https://youtu.be/Hm-WqEWKbF4?feature=shared
 ---
 
 🌐 Live MVP
-👉 https://gdg1-9ort8k312-ronak-shahs-projects-f1d5e0f8.vercel.app/login
+👉 https://cptracker-gdg.vercel.app/
