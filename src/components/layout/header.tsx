@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
+import { ThemeToggle } from './theme-toggle';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -65,16 +66,26 @@ export default function Header() {
             <NavLinks />
           </nav>
         </div>
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-2.5">
+          <ThemeToggle />
           {!isUserLoading && (
             <>
               {user ? (
-                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="hover:bg-primary/10 hover:text-primary transition-all duration-200"
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   Logout
                 </Button>
               ) : (
-                <Button asChild size="sm" className="hidden sm:flex">
+                <Button
+                  asChild
+                  size="sm"
+                  className="hidden sm:flex bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-md shadow-primary/20 hover:scale-105 transition-all duration-200"
+                >
                   <Link href="/login">Login</Link>
                 </Button>
               )}
@@ -82,21 +93,41 @@ export default function Header() {
           )}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className="md:hidden hover:bg-accent/20">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
-              <Link href="/" className="mr-6 flex items-center space-x-2 mb-6">
-                <Code2 className="h-6 w-6 text-primary" />
-                <span className="font-bold font-headline inline-block text-lg">ALL IN</span>
-              </Link>
+            <SheetContent side="left" className="border-r border-border/60 bg-card/95 backdrop-blur-md">
+              <div className="flex items-center justify-between mb-6">
+                <Link href="/" className="flex items-center space-x-2">
+                  <Code2 className="h-6 w-6 text-primary" />
+                  <span className="font-bold font-headline inline-block text-lg">ALL IN</span>
+                </Link>
+              </div>
               <nav className="flex flex-col gap-4 text-lg">
                 <NavLinks />
+                <div className="pt-4 border-t border-border/50 flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground font-medium">Theme</span>
+                  <ThemeToggle />
+                </div>
                  {!isUserLoading && !user && (
-                    <Button asChild size="sm" className="mt-4">
+                    <Button asChild size="sm" className="mt-4 bg-primary text-primary-foreground font-semibold">
                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+                    </Button>
+                )}
+                 {!isUserLoading && user && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="mt-4 border-primary/30 text-primary hover:bg-primary/10"
+                    >
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Logout
                     </Button>
                 )}
               </nav>

@@ -46,28 +46,28 @@ export default function ProfilePage() {
   return (
     <div className="container mx-auto py-10 px-4">
       <div className="max-w-4xl mx-auto">
-        <Card className="w-full bg-card/50 border-border/50 shadow-lg shadow-primary/5 hover:shadow-primary/10 transition-shadow duration-300">
-          <CardHeader className="text-center">
-            <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-primary/50">
+        <Card className="w-full bg-card/85 border border-dustyPink/30 shadow-2xl shadow-primary/5 hover:shadow-primary/10 transition-shadow duration-300 rounded-2xl overflow-hidden backdrop-blur-md">
+          <CardHeader className="text-center border-b border-border/50 bg-muted/20 pb-6">
+            <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-dustyPink/40 ring-4 ring-primary/20">
               <AvatarImage src={user.photoURL || userProfile.avatar} alt={user.displayName || 'User'} />
-              <AvatarFallback className="text-4xl bg-secondary">{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
+              <AvatarFallback className="text-4xl bg-primary/20 text-primary font-headline">{user.email?.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
-            <CardTitle className="font-headline text-3xl">{user.displayName || user.email}</CardTitle>
-            <CardDescription className="text-primary">{user.email}</CardDescription>
+            <CardTitle className="font-headline text-3xl text-foreground">{user.displayName || user.email}</CardTitle>
+            <CardDescription className="text-primary font-medium">{user.email}</CardDescription>
           </CardHeader>
-          <CardContent className="text-center">
-            <p className="max-w-2xl mx-auto text-muted-foreground">{userProfile.bio}</p>
+          <CardContent className="text-center p-6 sm:p-8">
+            <p className="max-w-2xl mx-auto text-muted-foreground leading-relaxed">{userProfile.bio}</p>
             
             <Separator className="my-8" />
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               {userProfile.stats.map((stat) => (
-                <div key={stat.name} className="p-4 rounded-lg bg-card/70">
-                  <stat.icon className="w-8 h-8 mx-auto text-primary mb-2" />
-                  <p className="text-2xl font-bold font-headline">
+                <div key={stat.name} className="p-4 rounded-xl border border-border/60 bg-muted/20 hover:border-dustyPink/40 hover:-translate-y-0.5 transition-all duration-200">
+                  <stat.icon className="w-7 h-7 mx-auto text-primary mb-2" />
+                  <p className="text-2xl font-bold font-headline text-foreground">
                     <AnimatedNumber value={stat.value} precision={stat.name === 'Avg. Rating' ? 1 : 0} />
                   </p>
-                  <p className="text-sm text-muted-foreground">{stat.name}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{stat.name}</p>
                 </div>
               ))}
             </div>
@@ -75,10 +75,10 @@ export default function ProfilePage() {
             <Separator className="my-8" />
             
             <div>
-              <h3 className="font-headline text-xl font-semibold mb-4">Skills</h3>
+              <h3 className="font-headline text-xl font-semibold mb-4 text-foreground">Skills & Specializations</h3>
               <div className="flex flex-wrap justify-center gap-2">
                 {userProfile.skills.map((skill) => (
-                  <Badge key={skill} variant="secondary" className="text-sm px-3 py-1 transition-transform hover:scale-105">
+                  <Badge key={skill} variant="secondary" className="text-xs px-3 py-1 bg-primary/10 text-primary border border-dustyPink/20 hover:bg-primary hover:text-primary-foreground transition-all duration-200 hover:scale-105">
                     {skill}
                   </Badge>
                 ))}

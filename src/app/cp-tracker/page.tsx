@@ -3,6 +3,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { ContestHeatmap } from '@/components/cp-tracker/contest-heatmap';
 import { ContestTimeline } from '@/components/cp-tracker/contest-timeline';
+import { Sparkles, Trophy } from 'lucide-react';
+import { CopyButton } from '@/components/shared/copy-button';
 
 const trackedSubmissions = [
   { id: 1, problem: 'Two Sum', platform: 'LeetCode', date: '2024-07-20', rating: 4.5, status: 'Accepted' },
@@ -33,11 +35,11 @@ const trackedSubmissions = [
 const StatusBadge = ({ status }: { status: string }) => {
   switch (status) {
     case 'Accepted':
-      return <Badge variant="default" className="bg-green-500/80 hover:bg-green-500/90 text-white">Accepted</Badge>;
+      return <Badge className="bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25">Accepted</Badge>;
     case 'Time Limit Exceeded':
-      return <Badge variant="destructive" className="bg-yellow-500/80 hover:bg-yellow-500/90 text-white">TLE</Badge>;
+      return <Badge className="bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 hover:bg-amber-500/25">TLE</Badge>;
     case 'Wrong Answer':
-      return <Badge variant="destructive" className="bg-red-500/80 hover:bg-red-500/90 text-white">WA</Badge>;
+      return <Badge className="bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-500/25">WA</Badge>;
     default:
       return <Badge variant="outline">{status}</Badge>;
   }
@@ -45,61 +47,82 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 export default function CpTrackerPage() {
   return (
-    <div className="container mx-auto py-10 px-4">
+    <div className="container mx-auto py-12 px-4 max-w-7xl">
       <header className="text-center mb-12">
-        <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tight">CP Tracker</h1>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Monitor your competitive programming submissions and ratings.
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-dustyPink/25 text-xs font-semibold uppercase tracking-wider text-primary mb-4 backdrop-blur-sm">
+          <Sparkles className="h-3.5 w-3.5 text-dustyPink-500" />
+          <span>Competitive Programming Analytics</span>
+        </div>
+        <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
+          CP Tracker
+        </h1>
+        <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+          Monitor your cross-platform problem submissions, rating progression, and contest schedules.
         </p>
       </header>
       
-      <div className="grid gap-8 max-w-7xl mx-auto lg:grid-cols-3">
+      <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-8">
-            <Card>
-            <CardHeader>
-                <CardTitle className="font-headline">Recent Submissions</CardTitle>
-                <CardDescription>A log of your recent activity on various platforms.</CardDescription>
+          <Card className="bg-card/80 border border-dustyPink/30 shadow-xl backdrop-blur-md rounded-2xl overflow-hidden">
+            <CardHeader className="border-b border-border/50 bg-muted/20 pb-4">
+              <CardTitle className="font-headline text-xl text-foreground">Recent Submissions</CardTitle>
+              <CardDescription>A real-time log of your activity on LeetCode & Codeforces.</CardDescription>
             </CardHeader>
-            <CardContent>
-                <Table>
+            <CardContent className="p-0">
+              <Table>
                 <TableHeader>
-                    <TableRow>
-                    <TableHead>Problem</TableHead>
-                    <TableHead>Platform</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Rating</TableHead>
-                    </TableRow>
+                  <TableRow className="border-border/60 hover:bg-transparent">
+                    <TableHead className="font-semibold text-foreground">Problem</TableHead>
+                    <TableHead className="font-semibold text-foreground">Platform</TableHead>
+                    <TableHead className="font-semibold text-foreground">Date</TableHead>
+                    <TableHead className="font-semibold text-foreground">Status</TableHead>
+                    <TableHead className="text-right font-semibold text-foreground">Rating</TableHead>
+                  </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {trackedSubmissions.map((sub) => (
-                    <TableRow key={sub.id} className="transition-colors hover:bg-muted/50">
-                        <TableCell className="font-medium">{sub.problem}</TableCell>
-                        <TableCell>{sub.platform}</TableCell>
-                        <TableCell className="text-muted-foreground">{sub.date}</TableCell>
-                        <TableCell>
+                  {trackedSubmissions.map((sub) => (
+                    <TableRow key={sub.id} className="group transition-colors hover:bg-muted/30 border-border/40">
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-2">
+                          <span className="text-foreground">{sub.problem}</span>
+                          <CopyButton
+                            text={sub.problem}
+                            className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-muted/50 border border-border/60 text-muted-foreground font-mono">
+                          {sub.platform}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-muted-foreground text-xs">{sub.date}</TableCell>
+                      <TableCell>
                         <StatusBadge status={sub.status} />
-                        </TableCell>
-                        <TableCell className="text-right font-mono font-bold text-lg">{sub.rating.toFixed(1)}</TableCell>
+                      </TableCell>
+                      <TableCell className="text-right font-mono font-bold text-base text-primary">
+                        {sub.rating.toFixed(1)}
+                      </TableCell>
                     </TableRow>
-                    ))}
+                  ))}
                 </TableBody>
-                </Table>
+              </Table>
             </CardContent>
-            </Card>
+          </Card>
 
-            <Card>
-            <CardHeader>
-                <CardTitle className="font-headline">Contest Heatmap</CardTitle>
-                <CardDescription>Your submission activity over the last year.</CardDescription>
+          <Card className="bg-card/80 border border-dustyPink/30 shadow-xl backdrop-blur-md rounded-2xl overflow-hidden">
+            <CardHeader className="border-b border-border/50 bg-muted/20 pb-4">
+              <CardTitle className="font-headline text-xl text-foreground">Contest Activity Heatmap</CardTitle>
+              <CardDescription>Your 365-day submission frequency visualized in Burgundy & Dusty Pink tones.</CardDescription>
             </CardHeader>
-            <CardContent>
-                <ContestHeatmap />
+            <CardContent className="p-6">
+              <ContestHeatmap />
             </CardContent>
-            </Card>
+          </Card>
         </div>
+
         <div className="lg:col-span-1">
-            <ContestTimeline />
+          <ContestTimeline />
         </div>
       </div>
     </div>

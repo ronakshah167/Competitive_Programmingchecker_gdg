@@ -1,6 +1,7 @@
 import type {Config} from 'tailwindcss';
 
 export default {
+  darkMode: ['class'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -73,6 +74,42 @@ export default {
         },
         'hero-start': 'hsl(var(--hero-gradient-start))',
         'hero-end': 'hsl(var(--hero-gradient-end))',
+        burgundy: {
+          DEFAULT: '#6B1426',
+          50: '#FBF2F4',
+          100: '#F6E3E7',
+          200: '#ECC7D0',
+          300: '#DEA3B1',
+          400: '#C77085',
+          500: '#A83B55',
+          600: '#871D36',
+          700: '#6B1426',
+          800: '#520D1B',
+          900: '#3A0712',
+          950: '#20030A',
+        },
+        dustyPink: {
+          DEFAULT: '#DCAEBA',
+          50: '#FDF7F9',
+          100: '#FBEFF3',
+          200: '#F6DFE7',
+          300: '#ECC7D4',
+          400: '#DCAEBA',
+          500: '#C88E9E',
+          600: '#AC6F80',
+          700: '#8E5162',
+          800: '#723C4B',
+          900: '#5A2D3A',
+        },
+        cream: {
+          DEFAULT: '#FAF6F0',
+          50: '#FFFDFB',
+          100: '#FAF6F0',
+          200: '#F5ECE0',
+          300: '#EBDDC9',
+          400: '#DFC9AE',
+          500: '#CBB293',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

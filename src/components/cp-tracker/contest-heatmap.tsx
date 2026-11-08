@@ -1,9 +1,11 @@
 'use client';
+
 import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { subDays, format } from 'date-fns';
 
 const today = new Date();
@@ -15,18 +17,12 @@ const data = Array.from({ length: 365 }).map((_, i) => {
   };
 }).reverse();
 
-const chartConfig = {
-  count: {
-    label: 'Submissions',
-  },
-};
-
 export function ContestHeatmap() {
   return (
-    <div className="w-full overflow-x-auto">
-      <ChartContainer config={chartConfig} className="h-40 min-w-full">
+    <div className="w-full overflow-x-auto pb-2">
+      <TooltipProvider delayDuration={100}>
         <Heatmap data={data} />
-      </ChartContainer>
+      </TooltipProvider>
     </div>
   );
 }
@@ -50,28 +46,19 @@ function Heatmap({ data }: { data: { date: string; count: number }[] }) {
   }
   if (currentWeek.length > 0) {
     while (currentWeek.length < 7) {
-        currentWeek.push(null);
+      currentWeek.push(null);
     }
     weeks.push(currentWeek);
   }
 
   const getColor = (count: number) => {
-    if (count === 0) return 'bg-muted/30';
-    if (count <= 1) return 'bg-primary/20';
-    if (count <= 2) return 'bg-primary/40';
-    if (count <= 3) return 'bg-primary/60';
-    return 'bg-primary/80';
+    if (count === 0) return 'bg-muted/40';
+    if (count <= 1) return 'bg-primary/25 hover:bg-primary/35';
+    if (count <= 2) return 'bg-primary/50 hover:bg-primary/60';
+    if (count <= 3) return 'bg-primary/75 hover:bg-primary/85';
+    return 'bg-primary hover:bg-primary/90';
   };
-  
-  const monthLabels = data.reduce((acc, day) => {
-      const month = format(new Date(day.date), 'MMM');
-      if (!acc.includes(month)) {
-          acc.push(month);
-      }
-      return acc;
-  }, [] as string[]);
-  
-  const weekCount = weeks.length;
+
   const monthPositions: { [key: string]: number } = {};
   data.forEach((day, index) => {
     const weekIndex = Math.floor((index + firstDayOfWeek) / 7);
@@ -81,41 +68,55 @@ function Heatmap({ data }: { data: { date: string; count: number }[] }) {
     }
   });
 
-
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 min-w-[700px]">
       <div className="grid grid-flow-col justify-start gap-1">
         {weeks[0].map((_, colIndex) => {
-          const month = format(new Date(data[0].date), 'MMM');
-          const shouldShowLabel = colIndex === monthPositions[month];
+          const matchingMonth = Object.keys(monthPositions).find((m) => monthPositions[m] === colIndex);
           return (
-             <div key={colIndex} className="w-10 text-xs text-muted-foreground text-center">
-                {Object.keys(monthPositions).find(m => monthPositions[m] === colIndex)}
+            <div key={colIndex} className="w-4 text-[10px] text-muted-foreground text-center">
+              {matchingMonth ? matchingMonth.slice(0, 3) : ''}
             </div>
-          )
+          );
         })}
       </div>
+
       <div className="grid grid-flow-col justify-start gap-1">
-        <div className="flex flex-col gap-1">
-            {['', 'M', '', 'W', '', 'F', ''].map((day, i) => <div key={i} className="h-4 w-4 text-xs text-muted-foreground text-center leading-4">{day}</div>)}
+        <div className="flex flex-col gap-1 pr-1">
+          {['', 'M', '', 'W', '', 'F', ''].map((day, i) => (
+            <div key={i} className="h-3.5 w-3.5 text-[9px] text-muted-foreground text-center leading-[14px]">
+              {day}
+            </div>
+          ))}
         </div>
         {weeks.map((week, weekIndex) => (
           <div key={weekIndex} className="flex flex-col gap-1">
             {week.map((day, dayIndex) => {
-              if (!day) return <div key={`${weekIndex}-${dayIndex}`} className="h-4 w-4 rounded-sm bg-background" />;
-              
+              if (!day) {
+                return (
+                  <div
+                    key={`${weekIndex}-${dayIndex}`}
+                    className="h-3.5 w-3.5 rounded-sm bg-transparent"
+                  />
+                );
+              }
+
               return (
-              <ChartTooltip
-                key={day.date}
-                content={
-                  <ChartTooltipContent>
-                    {day.count} submissions on {format(new Date(day.date), 'PPP')}
-                  </ChartTooltipContent>
-                }
-              >
-                <div className={`h-4 w-4 rounded-sm ${getColor(day.count)}`} />
-              </ChartTooltip>
-            )})}
+                <Tooltip key={day.date}>
+                  <TooltipTrigger asChild>
+                    <div
+                      className={`h-3.5 w-3.5 rounded-sm transition-all duration-150 cursor-pointer ${getColor(
+                        day.count
+                      )}`}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent side="top" className="text-xs font-mono">
+                    <span className="font-semibold text-primary">{day.count} submissions</span> on{' '}
+                    {format(new Date(day.date), 'MMM d, yyyy')}
+                  </TooltipContent>
+                </Tooltip>
+              );
+            })}
           </div>
         ))}
       </div>

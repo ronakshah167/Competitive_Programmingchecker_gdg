@@ -82,34 +82,34 @@ export function ContestTimeline() {
                          <div className="absolute left-[-2.2rem] top-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                              <Calendar className="h-4 w-4" />
                          </div>
-                        <Card className="bg-card/50 hover:border-primary/50 transition-colors">
-                            <CardHeader className="pb-4">
-                                <CardTitle className="text-lg font-semibold flex justify-between items-start">
+                        <Card className="bg-card/70 border-border/60 hover:border-dustyPink/50 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
+                            <CardHeader className="pb-3">
+                                <CardTitle className="text-lg font-semibold flex justify-between items-start font-headline text-foreground">
                                     <span>{contest.name}</span>
                                     <Link href={contest.url} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
                                         <ExternalLink className="h-4 w-4" />
                                     </Link>
                                 </CardTitle>
-                                <CardDescription>{contest.platform}</CardDescription>
+                                <CardDescription className="text-primary font-medium">{contest.platform}</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="text-sm text-muted-foreground space-y-2">
                                     <div className="flex items-center gap-2">
-                                        <Calendar className="h-4 w-4"/>
+                                        <Calendar className="h-4 w-4 text-dustyPink-500"/>
                                         <span>{format(startTime, 'MMMM d, yyyy')}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <Clock className="h-4 w-4"/>
+                                        <Clock className="h-4 w-4 text-dustyPink-500"/>
                                         <span>{format(startTime, 'p')} ({contest.duration})</span>
                                     </div>
                                 </div>
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="w-full"
+                                    className="w-full border-border/70 hover:border-dustyPink/50 hover:bg-primary/10 hover:text-primary transition-all duration-200"
                                     onClick={() => handleSetReminder(contest.name)}
                                 >
-                                    <Bell className="mr-2 h-4 w-4" />
+                                    <Bell className="mr-2 h-4 w-4 text-dustyPink-500" />
                                     Set Reminder
                                 </Button>
                             </CardContent>

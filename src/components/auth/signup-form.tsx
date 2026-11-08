@@ -62,7 +62,7 @@ export function SignupForm() {
   }
 
   return (
-    <Card>
+    <Card className="border border-dustyPink/30 bg-card/85 rounded-2xl shadow-xl backdrop-blur-md overflow-hidden">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-6 pt-6">
@@ -71,9 +71,9 @@ export function SignupForm() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-foreground font-semibold">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="name@example.com" {...field} />
+                    <Input placeholder="name@example.com" className="focus-visible:ring-dustyPink-400" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -84,9 +84,9 @@ export function SignupForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-foreground font-semibold">Password</FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="••••••••" {...field} />
+                    <Input type="password" placeholder="••••••••" className="focus-visible:ring-dustyPink-400" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,7 +94,11 @@ export function SignupForm() {
             />
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            <Button type="submit" disabled={isLoading} className="w-full font-bold">
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full font-bold bg-primary hover:bg-primary/90 text-primary-foreground shadow-md shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 h-11"
+            >
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create Account
             </Button>
