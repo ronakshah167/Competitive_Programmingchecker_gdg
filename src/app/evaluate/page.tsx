@@ -14,7 +14,7 @@ export default function EvaluatePage() {
           Code Evaluation
         </h1>
         <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Submit your code to receive comprehensive multi-metric analysis, algorithmic feedback, and AI authorship detection.
+          Submit your code to receive comprehensive multi-metric analysis, algorithmic feedback, and a transparent discussion of authorship limitations.
         </p>
       </header>
 
