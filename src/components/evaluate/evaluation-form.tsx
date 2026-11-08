@@ -26,6 +26,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { EvaluationAnalysisReport } from './evaluation-analysis-report';
 import { CopyButton } from '@/components/shared/copy-button';
+import { evaluateStaticCode } from '@/lib/evaluator';
 
 const formSchema = z.object({
   programmingLanguage: z.string().min(1, 'Please select a language.'),
@@ -91,6 +92,8 @@ export function EvaluationForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [result, setResult] = useState<PersonalizedCodeFeedbackOutput | null>(null);
+  const [evaluatedCode, setEvaluatedCode] = useState('');
+  const [evaluatedLanguage, setEvaluatedLanguage] = useState('');
   const [error, setError] = useState<string | null>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
@@ -136,6 +139,8 @@ export function EvaluationForm() {
     try {
       const feedback = await getPersonalizedCodeFeedback(values);
       setResult(feedback);
+      setEvaluatedCode(values.code);
+      setEvaluatedLanguage(values.programmingLanguage);
     } catch (e) {
       console.error(e);
       setError('An error occurred while evaluating your code. Please try again.');
@@ -163,6 +168,7 @@ export function EvaluationForm() {
 
   return (
     <div className="space-y-8">
+      <p className="rounded-xl border border-border bg-muted/20 p-3 text-sm text-muted-foreground">Your code is sent to Gemini for feedback. The static analysis below does not run your code. AI authorship cannot be reliably determined from code style alone; no keystroke or paste telemetry is collected by this evaluator.</p>
       {/* Sample Snippet Loaders */}
       <div className="flex flex-wrap items-center gap-2 pb-2">
         <span className="text-xs font-semibold text-muted-foreground mr-1 flex items-center gap-1">
@@ -340,7 +346,7 @@ export function EvaluationForm() {
       )}
 
       <div ref={resultsRef}>
-        {result && <EvaluationAnalysisReport result={result} />}
+        {result && <EvaluationAnalysisReport result={result} staticReport={evaluateStaticCode(evaluatedCode, evaluatedLanguage)} />}
       </div>
     </div>
   );
