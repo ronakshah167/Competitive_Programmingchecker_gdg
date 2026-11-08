@@ -12,9 +12,11 @@ import { Star, Sparkles, BookOpen, Lightbulb, BrainCircuit, AlertTriangle, UserC
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { CopyButton } from '@/components/shared/copy-button';
+import { EvaluationReport, metricNames, weights } from '@/lib/evaluator';
 
 interface EvaluationAnalysisReportProps {
   result: PersonalizedCodeFeedbackOutput;
+  staticReport: EvaluationReport;
 }
 
 const CustomPolarAngleAxisTick = ({ payload, x, y, cx, cy, ...rest }: any) => {
@@ -34,6 +36,7 @@ const CustomPolarAngleAxisTick = ({ payload, x, y, cx, cy, ...rest }: any) => {
 
 export function EvaluationAnalysisReport({
   result,
+  staticReport,
 }: EvaluationAnalysisReportProps) {
   const chartData = [
     { skill: 'Readability', score: result.readability, fullMark: 5 },
@@ -89,7 +92,7 @@ export function EvaluationAnalysisReport({
 
       <CardContent className="p-6 sm:p-8 space-y-8">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 h-auto p-1.5 rounded-xl bg-muted/40 border border-border/50">
+          <TabsList className="grid w-full grid-cols-4 h-auto p-1.5 rounded-xl bg-muted/40 border border-border/50">
             <TabsTrigger
               value="overview"
               className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=open]:bg-primary data-[state=open]:text-primary-foreground data-[state=open]:shadow-md transition-all"
@@ -113,6 +116,7 @@ export function EvaluationAnalysisReport({
             </TabsTrigger>
           </TabsList>
 
+          <TabsTrigger value="metrics" className="py-2.5 rounded-lg text-xs sm:text-sm">Metrics</TabsTrigger>
           {/* TAB 1: OVERVIEW */}
           <TabsContent value="overview" className="mt-6 space-y-6">
             {/* Quick Skills Pill Row */}
@@ -229,6 +233,22 @@ export function EvaluationAnalysisReport({
             </div>
           </TabsContent>
 
+          <TabsContent value="metrics" className="mt-6 space-y-4">
+            <div className="rounded-xl border border-border p-4 bg-muted/20">
+              <h3 className="font-semibold">Static analysis · partial coverage</h3>
+              <p className="text-sm text-muted-foreground">Estimated score: {staticReport.overall_score ?? 'Not available'} / 100 · Weighted rubric coverage: {staticReport.coverage}%.</p>
+              <p className="text-xs text-muted-foreground mt-2">This score describes checked heuristics only—not the quality or correctness of the entire solution. Unavailable metrics are excluded, not assigned zero.</p>
+            </div>
+            {metricNames.map(name => {
+              const metric = staticReport.metrics[name];
+              return <div key={name} className="rounded-xl border border-border p-4 space-y-2">
+                <div className="flex justify-between gap-2"><strong className="capitalize">{name.replace(/([A-Z])/g, ' $1')}</strong><span className="text-sm">{metric.score === null ? 'Not measured' : `${metric.score}/100`} · {weights[name]}% weight</span></div>
+                <p className="text-xs text-muted-foreground">{metric.status} · confidence {Math.round(metric.confidence * 100)}%</p>
+                {metric.evidence.map((e, i) => <p key={i} className="text-sm text-muted-foreground">Lines {e.line_start}–{e.line_end}: {e.note}</p>)}
+              </div>;
+            })}
+            {staticReport.improvements.map((item, i) => <p key={i} className="text-sm text-muted-foreground">• {item}</p>)}
+          </TabsContent>
           {/* TAB 2: AI DETECTION */}
           <TabsContent value="ai-detection" className="mt-6">
             <Card className="border border-dustyPink/30 bg-card/60 backdrop-blur-sm">
@@ -239,11 +259,11 @@ export function EvaluationAnalysisReport({
                     AI Authorship Assessment
                   </CardTitle>
                   <CardDescription>
-                    Probability metrics determining whether this solution resembles LLM-generated patterns.
+                    Unverified stylistic observations only. This is not an authorship verdict.
                   </CardDescription>
                 </div>
                 <CopyButton
-                  text={`AI Likelihood: ${aiLikelihood}%\nReasoning: ${result.aiDetection.reasoning}`}
+                  text={`Unverified AI-style observations: ${result.aiDetection.reasoning}`}
                   label="Copy"
                   size="sm"
                 />
@@ -251,11 +271,11 @@ export function EvaluationAnalysisReport({
               <CardContent className="space-y-6">
                 <div className="text-center p-6 rounded-2xl border border-border/50 bg-muted/20">
                   <div className={`font-bold text-6xl font-headline tracking-tight ${getLikelihoodColor(aiLikelihood)}`}>
-                    {aiLikelihood}%
+                    Not verified
                   </div>
-                  <p className="text-sm text-muted-foreground mt-2 font-medium">Likelihood of AI Generation</p>
+                  <p className="text-sm text-muted-foreground mt-2 font-medium">AI authorship cannot be established from this evaluation</p>
                   <Progress
-                    value={aiLikelihood}
+                    value={0}
                     className="mt-4 h-3 bg-muted/50"
                     indicatorClassName={
                       aiLikelihood > 75
@@ -276,12 +296,13 @@ export function EvaluationAnalysisReport({
                     <UserCheck className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1" />
                   )}
                   <div>
-                    <h4 className="font-semibold font-headline text-foreground">AI Stylistic Reasoning</h4>
+                    <h4 className="font-semibold font-headline text-foreground">Unverified stylistic observations</h4>
                     <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
                       {result.aiDetection.reasoning}
                     </p>
                   </div>
                 </div>
+                <p className="text-sm text-muted-foreground">No labeled validation set, editor provenance, or calibrated detection model is connected. No penalty should follow from these observations. Ask the author to explain the code, and allow human review.</p>
               </CardContent>
             </Card>
           </TabsContent>
