@@ -1,36 +1,81 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { EvaluationForm } from '@/components/evaluate/evaluation-form';
-import { Sparkles } from 'lucide-react';
+import { EvaluationForm } from "@/components/evaluate/evaluation-form";
+import {
+  Braces,
+  ArrowUpRight,
+  ShieldCheck,
+  SlidersHorizontal,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function EvaluatePage() {
   return (
-    <div className="container mx-auto py-12 px-4 max-w-4xl">
-      <header className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-dustyPink/25 text-xs font-semibold uppercase tracking-wider text-primary mb-4 backdrop-blur-sm">
-          <Sparkles className="h-3.5 w-3.5 text-dustyPink-500" />
-          <span>Gemini AI Code Evaluator</span>
+    <div className="page-width evaluator-page enter">
+      <header className="workspace-heading">
+        <div>
+          <div className="eyebrow">
+            <span className="status-dot" /> CODE WORKSPACE
+          </div>
+          <h1>Make your next version better.</h1>
+          <p>
+            Your solution, a fresh perspective, and a clear path to improve.
+          </p>
         </div>
-        <h1 className="font-headline text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
-          Code Evaluation
-        </h1>
-        <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Submit your code to receive comprehensive multi-metric analysis, algorithmic feedback, and a transparent discussion of authorship limitations.
-        </p>
+        <span className="workspace-badge">
+          <Braces size={16} /> Gemini + static analysis
+        </span>
       </header>
-
-      <Card className="bg-card/85 border border-dustyPink/30 shadow-2xl shadow-primary/5 hover:shadow-primary/10 transition-all duration-300 rounded-2xl backdrop-blur-md overflow-hidden">
-        <CardHeader className="border-b border-border/50 bg-muted/20 pb-5">
-          <CardTitle className="font-headline text-2xl text-foreground">
-            Submit Your Code
-          </CardTitle>
-          <CardDescription>
-            Select the programming language, your skill level, and paste your solution below.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6 sm:p-8">
+      <div className="workspace-grid">
+        <section className="editor-panel">
+          <div className="editor-panel-heading">
+            <span>
+              <Braces size={18} /> New evaluation
+            </span>
+            <span className="mono-label">01 / SOURCE</span>
+          </div>
           <EvaluationForm />
-        </CardContent>
-      </Card>
+        </section>
+        <aside className="workspace-aside">
+          <div className="aside-card">
+            <SlidersHorizontal size={22} />
+            <h2>A fuller picture of your code.</h2>
+            <p>
+              Seven weighted metrics. Clear confidence levels. Practical next
+              steps.
+            </p>
+            <ol>
+              {[
+                "Correctness",
+                "Efficiency",
+                "Robustness",
+                "Readability",
+                "Idiomatic code",
+                "Security",
+                "Problem solving",
+              ].map((name, i) => (
+                <li key={name}>
+                  <span>0{i + 1}</span>
+                  {name}
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="aside-note">
+            <ShieldCheck size={20} />
+            <h3>Know what is measured.</h3>
+            <p>
+              Static analysis does not execute code. Some metrics are
+              unavailable without tests. Code style alone cannot establish AI
+              authorship.
+            </p>
+          </div>
+          <Link className="mentor-link" href="/chatbot">
+            Need to talk it through?
+            <span>
+              Ask your AI mentor <ArrowUpRight size={17} />
+            </span>
+          </Link>
+        </aside>
+      </div>
     </div>
   );
 }

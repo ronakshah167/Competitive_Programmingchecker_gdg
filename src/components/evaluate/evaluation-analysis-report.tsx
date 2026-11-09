@@ -1,18 +1,40 @@
-'use client';
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from '@/components/ui/chart';
-import { PersonalizedCodeFeedbackOutput } from '@/ai/flows/personalized-code-feedback';
-import { PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart } from 'recharts';
-import { Star, Sparkles, BookOpen, Lightbulb, BrainCircuit, AlertTriangle, UserCheck, CheckCircle2, Award } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Progress } from '@/components/ui/progress';
-import { CopyButton } from '@/components/shared/copy-button';
-import { EvaluationReport, metricNames, weights } from '@/lib/evaluator';
+} from "@/components/ui/chart";
+import { PersonalizedCodeFeedbackOutput } from "@/ai/flows/personalized-code-feedback";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+} from "recharts";
+import {
+  Star,
+  Sparkles,
+  BookOpen,
+  Lightbulb,
+  BrainCircuit,
+  AlertTriangle,
+  UserCheck,
+  CheckCircle2,
+  Award,
+} from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { CopyButton } from "@/components/shared/copy-button";
+import { EvaluationReport, metricNames, weights } from "@/lib/evaluator";
 
 interface EvaluationAnalysisReportProps {
   result: PersonalizedCodeFeedbackOutput;
@@ -39,31 +61,31 @@ export function EvaluationAnalysisReport({
   staticReport,
 }: EvaluationAnalysisReportProps) {
   const chartData = [
-    { skill: 'Readability', score: result.readability, fullMark: 5 },
-    { skill: 'Logic', score: result.logic, fullMark: 5 },
-    { skill: 'Optimization', score: result.optimization, fullMark: 5 },
-    { skill: 'Maintainability', score: result.maintainability, fullMark: 5 },
+    { skill: "Readability", score: result.readability, fullMark: 5 },
+    { skill: "Logic", score: result.logic, fullMark: 5 },
+    { skill: "Optimization", score: result.optimization, fullMark: 5 },
+    { skill: "Maintainability", score: result.maintainability, fullMark: 5 },
   ];
 
   const chartConfig = {
     score: {
-      label: 'Score',
-      color: 'hsl(var(--primary))',
+      label: "Score",
+      color: "hsl(var(--primary))",
     },
   };
 
   const aiLikelihood = result.aiDetection.likelihood;
   const getLikelihoodColor = (likelihood: number) => {
-    if (likelihood > 75) return 'text-destructive';
-    if (likelihood > 50) return 'text-amber-500';
-    return 'text-emerald-500';
+    if (likelihood > 75) return "text-destructive";
+    if (likelihood > 50) return "text-amber-500";
+    return "text-emerald-500";
   };
 
   const skillScores = [
-    { name: 'Readability', score: result.readability },
-    { name: 'Logic', score: result.logic },
-    { name: 'Optimization', score: result.optimization },
-    { name: 'Maintainability', score: result.maintainability },
+    { name: "Readability", score: result.readability },
+    { name: "Logic", score: result.logic },
+    { name: "Optimization", score: result.optimization },
+    { name: "Maintainability", score: result.maintainability },
   ];
 
   return (
@@ -95,28 +117,33 @@ export function EvaluationAnalysisReport({
           <TabsList className="grid w-full grid-cols-4 h-auto p-1.5 rounded-xl bg-muted/40 border border-border/50">
             <TabsTrigger
               value="overview"
-              className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=open]:bg-primary data-[state=open]:text-primary-foreground data-[state=open]:shadow-md transition-all"
+              className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
             >
               <Lightbulb className="w-4 h-4 mr-2 text-dustyPink-400" />
               <span>Feedback & Analysis</span>
             </TabsTrigger>
             <TabsTrigger
               value="ai-detection"
-              className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=open]:bg-primary data-[state=open]:text-primary-foreground data-[state=open]:shadow-md transition-all"
+              className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
             >
               <BrainCircuit className="w-4 h-4 mr-2 text-dustyPink-400" />
               <span>AI Authorship</span>
             </TabsTrigger>
             <TabsTrigger
               value="explanation"
-              className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=open]:bg-primary data-[state=open]:text-primary-foreground data-[state=open]:shadow-md transition-all"
+              className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
             >
               <BookOpen className="w-4 h-4 mr-2 text-dustyPink-400" />
               <span>Code Explanation</span>
             </TabsTrigger>
           </TabsList>
 
-          <TabsTrigger value="metrics" className="py-2.5 rounded-lg text-xs sm:text-sm">Metrics</TabsTrigger>
+          <TabsTrigger
+            value="metrics"
+            className="py-2.5 rounded-lg text-xs sm:text-sm"
+          >
+            Metrics
+          </TabsTrigger>
           {/* TAB 1: OVERVIEW */}
           <TabsContent value="overview" className="mt-6 space-y-6">
             {/* Quick Skills Pill Row */}
@@ -128,7 +155,10 @@ export function EvaluationAnalysisReport({
                 >
                   <p className="text-xs text-muted-foreground">{s.name}</p>
                   <p className="mt-1 text-lg font-bold font-headline text-foreground">
-                    {s.score} <span className="text-xs font-normal text-muted-foreground">/ 5</span>
+                    {s.score}{" "}
+                    <span className="text-xs font-normal text-muted-foreground">
+                      / 5
+                    </span>
                   </p>
                 </div>
               ))}
@@ -150,8 +180,8 @@ export function EvaluationAnalysisReport({
                         key={i}
                         className={`h-5 w-5 transition-transform hover:scale-125 ${
                           i < result.rating
-                            ? 'text-amber-400 fill-amber-400'
-                            : 'text-muted-foreground/30'
+                            ? "text-amber-400 fill-amber-400"
+                            : "text-muted-foreground/30"
                         }`}
                       />
                     ))}
@@ -169,12 +199,14 @@ export function EvaluationAnalysisReport({
                   <div className="text-sm text-muted-foreground space-y-2.5 leading-relaxed">
                     <ul className="space-y-2.5">
                       {result.feedback
-                        .split('\n')
+                        .split("\n")
                         .filter((fb) => fb.trim().length > 0)
                         .map((fb, i) => (
                           <li key={i} className="flex items-start gap-2">
                             <span className="h-1.5 w-1.5 rounded-full bg-primary mt-2 shrink-0" />
-                            <span>{fb.replace(/^- /, '').replace(/^\* /, '').trim()}</span>
+                            <span>
+                              {fb.replace(/^- /, "").replace(/^\* /, "").trim()}
+                            </span>
                           </li>
                         ))}
                     </ul>
@@ -191,13 +223,22 @@ export function EvaluationAnalysisReport({
                   config={chartConfig}
                   className="mx-auto aspect-square max-h-[300px]"
                 >
-                  <RadarChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                  <RadarChart
+                    data={chartData}
+                    margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
+                  >
                     <ChartTooltip
                       cursor={false}
                       content={<ChartTooltipContent hideLabel />}
                     />
-                    <PolarAngleAxis dataKey="skill" tick={<CustomPolarAngleAxisTick />} />
-                    <PolarGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
+                    <PolarAngleAxis
+                      dataKey="skill"
+                      tick={<CustomPolarAngleAxisTick />}
+                    />
+                    <PolarGrid
+                      stroke="hsl(var(--border))"
+                      strokeDasharray="3 3"
+                    />
                     <PolarRadiusAxis
                       tick={({ x, y, payload }) => (
                         <text
@@ -222,8 +263,8 @@ export function EvaluationAnalysisReport({
                       fillOpacity={0.45}
                       dot={{
                         r: 4,
-                        fill: 'hsl(var(--accent))',
-                        stroke: 'hsl(var(--primary))',
+                        fill: "hsl(var(--accent))",
+                        stroke: "hsl(var(--primary))",
                         strokeWidth: 1.5,
                       }}
                     />
@@ -235,19 +276,54 @@ export function EvaluationAnalysisReport({
 
           <TabsContent value="metrics" className="mt-6 space-y-4">
             <div className="rounded-xl border border-border p-4 bg-muted/20">
-              <h3 className="font-semibold">Static analysis · partial coverage</h3>
-              <p className="text-sm text-muted-foreground">Estimated score: {staticReport.overall_score ?? 'Not available'} / 100 · Weighted rubric coverage: {staticReport.coverage}%.</p>
-              <p className="text-xs text-muted-foreground mt-2">This score describes checked heuristics only—not the quality or correctness of the entire solution. Unavailable metrics are excluded, not assigned zero.</p>
+              <h3 className="font-semibold">
+                Static analysis · partial coverage
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Estimated score: {staticReport.overall_score ?? "Not available"}{" "}
+                / 100 · Weighted rubric coverage: {staticReport.coverage}%.
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                This score describes checked heuristics only—not the quality or
+                correctness of the entire solution. Unavailable metrics are
+                excluded, not assigned zero.
+              </p>
             </div>
-            {metricNames.map(name => {
+            {metricNames.map((name) => {
               const metric = staticReport.metrics[name];
-              return <div key={name} className="rounded-xl border border-border p-4 space-y-2">
-                <div className="flex justify-between gap-2"><strong className="capitalize">{name.replace(/([A-Z])/g, ' $1')}</strong><span className="text-sm">{metric.score === null ? 'Not measured' : `${metric.score}/100`} · {weights[name]}% weight</span></div>
-                <p className="text-xs text-muted-foreground">{metric.status} · confidence {Math.round(metric.confidence * 100)}%</p>
-                {metric.evidence.map((e, i) => <p key={i} className="text-sm text-muted-foreground">Lines {e.line_start}–{e.line_end}: {e.note}</p>)}
-              </div>;
+              return (
+                <div
+                  key={name}
+                  className="rounded-xl border border-border p-4 space-y-2"
+                >
+                  <div className="flex justify-between gap-2">
+                    <strong className="capitalize">
+                      {name.replace(/([A-Z])/g, " $1")}
+                    </strong>
+                    <span className="text-sm">
+                      {metric.score === null
+                        ? "Not measured"
+                        : `${metric.score}/100`}{" "}
+                      · {weights[name]}% weight
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {metric.status} · confidence{" "}
+                    {Math.round(metric.confidence * 100)}%
+                  </p>
+                  {metric.evidence.map((e, i) => (
+                    <p key={i} className="text-sm text-muted-foreground">
+                      Lines {e.line_start}–{e.line_end}: {e.note}
+                    </p>
+                  ))}
+                </div>
+              );
             })}
-            {staticReport.improvements.map((item, i) => <p key={i} className="text-sm text-muted-foreground">• {item}</p>)}
+            {staticReport.improvements.map((item, i) => (
+              <p key={i} className="text-sm text-muted-foreground">
+                • {item}
+              </p>
+            ))}
           </TabsContent>
           {/* TAB 2: AI DETECTION */}
           <TabsContent value="ai-detection" className="mt-6">
@@ -259,7 +335,8 @@ export function EvaluationAnalysisReport({
                     AI Authorship Assessment
                   </CardTitle>
                   <CardDescription>
-                    Unverified stylistic observations only. This is not an authorship verdict.
+                    Unverified stylistic observations only. This is not an
+                    authorship verdict.
                   </CardDescription>
                 </div>
                 <CopyButton
@@ -270,19 +347,23 @@ export function EvaluationAnalysisReport({
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="text-center p-6 rounded-2xl border border-border/50 bg-muted/20">
-                  <div className={`font-bold text-6xl font-headline tracking-tight ${getLikelihoodColor(aiLikelihood)}`}>
+                  <div
+                    className={`font-bold text-6xl font-headline tracking-tight ${getLikelihoodColor(aiLikelihood)}`}
+                  >
                     Not verified
                   </div>
-                  <p className="text-sm text-muted-foreground mt-2 font-medium">AI authorship cannot be established from this evaluation</p>
+                  <p className="text-sm text-muted-foreground mt-2 font-medium">
+                    AI authorship cannot be established from this evaluation
+                  </p>
                   <Progress
                     value={0}
                     className="mt-4 h-3 bg-muted/50"
                     indicatorClassName={
                       aiLikelihood > 75
-                        ? 'bg-destructive'
+                        ? "bg-destructive"
                         : aiLikelihood > 50
-                        ? 'bg-amber-500'
-                        : 'bg-emerald-500'
+                          ? "bg-amber-500"
+                          : "bg-emerald-500"
                     }
                   />
                 </div>
@@ -296,13 +377,20 @@ export function EvaluationAnalysisReport({
                     <UserCheck className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1" />
                   )}
                   <div>
-                    <h4 className="font-semibold font-headline text-foreground">Unverified stylistic observations</h4>
+                    <h4 className="font-semibold font-headline text-foreground">
+                      Unverified stylistic observations
+                    </h4>
                     <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">
                       {result.aiDetection.reasoning}
                     </p>
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground">No labeled validation set, editor provenance, or calibrated detection model is connected. No penalty should follow from these observations. Ask the author to explain the code, and allow human review.</p>
+                <p className="text-sm text-muted-foreground">
+                  No labeled validation set, editor provenance, or calibrated
+                  detection model is connected. No penalty should follow from
+                  these observations. Ask the author to explain the code, and
+                  allow human review.
+                </p>
               </CardContent>
             </Card>
           </TabsContent>
@@ -317,10 +405,15 @@ export function EvaluationAnalysisReport({
                     Line-by-Line Code Breakdown
                   </CardTitle>
                   <CardDescription>
-                    Beginner-safe, intuitive breakdown of the algorithm logic and structure.
+                    Beginner-safe, intuitive breakdown of the algorithm logic
+                    and structure.
                   </CardDescription>
                 </div>
-                <CopyButton text={result.codeExplanation} label="Copy Explanation" size="sm" />
+                <CopyButton
+                  text={result.codeExplanation}
+                  label="Copy Explanation"
+                  size="sm"
+                />
               </CardHeader>
               <CardContent>
                 <div className="p-5 rounded-xl border border-border/60 bg-muted/20 text-foreground font-body text-sm sm:text-base leading-relaxed space-y-4 whitespace-pre-line">

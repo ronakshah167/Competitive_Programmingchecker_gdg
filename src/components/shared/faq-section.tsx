@@ -1,56 +1,56 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { HelpCircle, Sparkles } from 'lucide-react';
+import * as React from "react";
+import { HelpCircle, Sparkles } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion';
+} from "@/components/ui/accordion";
 
 const faqItems = [
   {
-    id: 'item-1',
-    question: 'How does the AI evaluate my code?',
+    id: "item-1",
+    question: "How does the AI evaluate my code?",
     answer:
-      'ALL IN uses Google Gemini AI (via Google Genkit) to perform an in-depth, multi-dimensional code evaluation. It assesses your solution across readability, logic, optimization, and maintainability, assigns an overall score (1-5), and generates beginner-friendly line-by-line explanations alongside concrete suggestions for improvement.',
+      "ALL IN uses Google Gemini AI (via Google Genkit) to perform an in-depth, multi-dimensional code evaluation. It assesses your solution across readability, logic, optimization, and maintainability, assigns an overall score (1-5), and generates beginner-friendly line-by-line explanations alongside concrete suggestions for improvement.",
   },
   {
-    id: 'item-2',
-    question: 'Which programming languages are supported?',
+    id: "item-2",
+    question: "Which programming languages are supported?",
     answer:
-      'We support all major languages including JavaScript, Python, C++, Java, TypeScript, C#, Go, Rust, Kotlin, Swift, Ruby, PHP, HTML, and CSS. The evaluation prompt automatically adapts its syntax and idiom checks to your chosen language.',
+      "We support all major languages including JavaScript, Python, C++, Java, TypeScript, C#, Go, Rust, Kotlin, Swift, Ruby, PHP, HTML, and CSS. The evaluation prompt automatically adapts its syntax and idiom checks to your chosen language.",
   },
   {
-    id: 'item-3',
-    question: 'How does the AI Authorship Detection work?',
+    id: "item-3",
+    question: "Can ALL IN tell if code was written by AI?",
     answer:
-      'Our AI detection heuristic evaluates stylistic markers such as unnatural comment density, overly textbook variable names, algorithmic structure patterns, and phrasing typical of large language models. It provides a likelihood percentage (0-100%) and a concise explanation of its reasoning.',
+      "No reliable authorship conclusion can be drawn from code style alone. The authorship section explains this limitation; AI feedback should never be treated as proof of who wrote a solution.",
   },
   {
-    id: 'item-4',
-    question: 'What can I ask the AI Chatbot?',
+    id: "item-4",
+    question: "What can I ask the AI Chatbot?",
     answer:
-      'The AI chatbot acts as your 24/7 coding mentor. You can ask for hints on competitive programming problems, algorithmic intuition (such as DP, Graphs, or Two Pointers), time and space complexity breakdowns, syntax explanations, or bug troubleshooting without spoiling the whole solution.',
+      "The AI chatbot acts as your 24/7 coding mentor. You can ask for hints on competitive programming problems, algorithmic intuition (such as DP, Graphs, or Two Pointers), time and space complexity breakdowns, syntax explanations, or bug troubleshooting without spoiling the whole solution.",
   },
   {
-    id: 'item-5',
-    question: 'How does the CP Tracker help me improve?',
+    id: "item-5",
+    question: "How does the CP Tracker help me improve?",
     answer:
-      'The CP Tracker consolidates your practice history across platforms like LeetCode and Codeforces into an interactive timeline and activity heatmap. You can monitor your submission accuracy, review past problem difficulty, and stay on top of upcoming contest schedules.',
+      "The CP Tracker consolidates your practice history across platforms like LeetCode and Codeforces into an interactive timeline and activity heatmap. You can monitor your submission accuracy, review past problem difficulty, and stay on top of upcoming contest schedules.",
   },
   {
-    id: 'item-6',
-    question: 'Is my submitted code kept private?',
+    id: "item-6",
+    question: "Is my submitted code kept private?",
     answer:
-      'Yes. Your code submissions are processed in real-time for evaluation and are not sold or publicly shared. If you are signed in, your evaluations are stored securely in your private profile for your review.',
+      "Your code is sent to Google Gemini to generate feedback. Avoid submitting credentials or confidential code. The static analyzer does not execute your code, and the evaluator does not collect keystroke or paste telemetry.",
   },
   {
-    id: 'item-7',
-    question: 'How do I toggle between Cream Light Mode and Burgundy Dark Mode?',
+    id: "item-7",
+    question: "Can I switch between light and dark mode?",
     answer:
-      'Click the sun/moon icon in the top navigation bar at any time! We specially designed two tailored aesthetics: a warm Cream & Royal Burgundy light theme, and a midnight Obsidian Burgundy & Dusty Pink dark theme. Your preference is automatically remembered.',
+      "Use the sun or moon button in the navigation to switch between the light and graphite themes. Your preference is remembered on this device.",
   },
 ];
 
@@ -67,7 +67,8 @@ export function FaqSection() {
             Frequently Asked Questions
           </h2>
           <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to know about ALL IN, code evaluations, AI assistance, and competitive tracking.
+            Everything you need to know about ALL IN, code evaluations, AI
+            assistance, and competitive tracking.
           </p>
         </div>
 
