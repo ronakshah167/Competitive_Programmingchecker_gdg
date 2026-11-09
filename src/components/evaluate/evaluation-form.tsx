@@ -333,7 +333,7 @@ export function EvaluationForm() {
                     spellCheck={false}
                     autoCapitalize="off"
                     autoCorrect="off"
-                    placeholder="// Your next improvement starts here.\n// Paste a solution or choose a sample above."
+                    placeholder={"// Your next improvement starts here.\n// Paste a solution or choose a sample above."}
                     className="min-h-[330px] font-mono text-sm bg-muted/20 border-border/70 focus-visible:ring-dustyPink-400 focus-visible:border-primary rounded-xl leading-relaxed transition-all"
                     {...field}
                     disabled={isLoading}

@@ -127,7 +127,7 @@ export default function Home() {
             ].map((line, i) => (
               <div key={i} className={i === 3 ? "highlight-line" : ""}>
                 <span className="line-no">{i + 1}</span>
-                <code>{line}</code>
+                <code style={{ paddingLeft: `${[0, 1, 1, 2, 2, 3, 2, 1][i] * 2}ch` }}>{line}</code>
               </div>
             ))}
           </div>

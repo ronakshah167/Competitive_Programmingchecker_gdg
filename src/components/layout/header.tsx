@@ -70,7 +70,7 @@ export default function Header() {
               ALL IN
             </span>
           </Link>
-          <nav className="hidden md:flex items-center gap-5 text-sm">
+          <nav className="hidden lg:flex items-center gap-5 text-sm">
             <NavLinks />
           </nav>
         </div>
@@ -104,7 +104,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden hover:bg-accent/20"
+                className="lg:hidden hover:bg-accent/20"
               >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle Menu</span>
