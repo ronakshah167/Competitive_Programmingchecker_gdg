@@ -73,7 +73,18 @@ const personalizedCodeFeedbackFlow = ai.defineFlow(
     outputSchema: PersonalizedCodeFeedbackOutputSchema,
   },
   async input => {
-    const {output} = await personalizedCodeFeedbackPrompt(input);
-    return output!;
+    const response = await personalizedCodeFeedbackPrompt(input).catch(error => {
+      // This Genkit adapter includes Google's HTTP status in the error message.
+      const unavailable = error instanceof Error &&
+        (Reflect.get(error, 'status') === 'UNAVAILABLE' ||
+          error.message.includes('[503 Service Unavailable]'));
+      if (!unavailable) throw error;
+
+      return personalizedCodeFeedbackPrompt(input, {
+        model: 'googleai/gemini-3.5-flash-lite',
+      });
+    });
+    if (!response.output) throw new Error('Gemini returned no evaluation.');
+    return response.output;
   }
 );

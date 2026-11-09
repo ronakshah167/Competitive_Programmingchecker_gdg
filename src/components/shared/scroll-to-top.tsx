@@ -17,6 +17,7 @@ export function ScrollToTop() {
       }
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -24,7 +25,9 @@ export function ScrollToTop() {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'instant'
+        : 'smooth',
     });
   };
 
@@ -32,17 +35,17 @@ export function ScrollToTop() {
     <div
       className={cn(
         'fixed bottom-6 right-6 z-40 transition-all duration-300 pointer-events-none',
-        visible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4'
+        visible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'invisible opacity-0 translate-y-4'
       )}
     >
       <Button
         onClick={scrollToTop}
         size="icon"
-        className="h-11 w-11 rounded-full shadow-xl bg-gradient-to-br from-primary via-burgundy-600 to-dustyPink-700 text-primary-foreground border border-dustyPink-400/40 hover:scale-110 hover:shadow-2xl hover:shadow-primary/30 active:scale-95 transition-all duration-300 group"
+        className="h-11 w-11 rounded-full border border-primary bg-primary text-primary-foreground shadow-lg hover:bg-primary hover:shadow-xl"
         aria-label="Scroll back to top"
         title="Back to top"
       >
-        <ArrowUp className="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-0.5" />
+        <ArrowUp className="h-5 w-5" strokeWidth={2.75} aria-hidden="true" />
       </Button>
     </div>
   );
