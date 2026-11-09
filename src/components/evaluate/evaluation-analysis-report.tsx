@@ -136,14 +136,13 @@ export function EvaluationAnalysisReport({
               <BookOpen className="w-4 h-4 mr-2 text-dustyPink-400" />
               <span>Code Explanation</span>
             </TabsTrigger>
+            <TabsTrigger
+              value="metrics"
+              className="py-2.5 rounded-lg font-medium text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
+            >
+              Metrics
+            </TabsTrigger>
           </TabsList>
-
-          <TabsTrigger
-            value="metrics"
-            className="py-2.5 rounded-lg text-xs sm:text-sm"
-          >
-            Metrics
-          </TabsTrigger>
           {/* TAB 1: OVERVIEW */}
           <TabsContent value="overview" className="mt-6 space-y-6">
             {/* Quick Skills Pill Row */}
